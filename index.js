@@ -11,4 +11,19 @@ const get = async function get(url){
   return { data: json }
 }
 
-module.exports = { get }
+const request = function request(opts) {
+  for (const opt of Object.keys(opts)) {
+    if (!['method', 'url'].includes(opt)) {
+      throw new Error(`invalid option: ${opt}`);
+    }
+  }
+  if (opts.method !== 'GET') {
+    throw new Error('only GET method is supported')
+  }
+  if (typeof opts.url !== 'string') {
+    throw new Error('expected url to be a string')
+  }
+  return get(opts.url);
+}
+
+module.exports = { get, request }
