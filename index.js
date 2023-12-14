@@ -3,6 +3,9 @@
 const { fetch } = require('@exodus/fetch')
 
 const get = async function get(url){
+  if (typeof url !== 'string') {
+    throw new Error('expected url to be a string')
+  }
   const response = await fetch(url)
   if (!response.ok) {
     throw new Error(`request failed with code ${response.status}`)
@@ -19,9 +22,6 @@ const request = function request(opts) {
   }
   if (opts.method !== 'GET') {
     throw new Error('only GET method is supported')
-  }
-  if (typeof opts.url !== 'string') {
-    throw new Error('expected url to be a string')
   }
   return get(opts.url);
 }
